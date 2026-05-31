@@ -1,0 +1,79 @@
+import { Expense, Participant } from "../types";
+import { formatEuro, formatDate } from "../utils";
+
+interface Props {
+  expenses: Expense[];
+  participants: Participant[];
+  onDelete: (id: string) => void;
+}
+
+function findName(participants: Participant[], id: string): string {
+  return participants.find((p) => p.id === id)?.name ?? "Inconnu";
+}
+
+export default function ExpenseList({ expenses, participants, onDelete }: Props) {
+  if (expenses.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+        <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+          <span className="text-2xl">🧾</span> Dépenses
+        </h2>
+        <p className="text-slate-400 text-sm text-center py-6">Aucune dépense enregistrée.</p>
+      </div>
+    );
+  }
+
+  const sorted = [...expenses].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+      <h2 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+        <span className="text-2xl">🧾</span> Dépenses
+        <span className="ml-auto text-xs font-normal text-slate-400">{expenses.length} entrée{expenses.length > 1 ? "s" : ""}</span>
+      </h2>
+
+      <ul className="space-y-3">
+        {sorted.map((exp) => {
+          const sharedNames = exp.sharedWith
+            .map((id) => findName(participants, id))
+            .join(", ");
+          return (
+            <li
+              key={exp.id}
+              className="flex items-start justify-between gap-3 p-3 bg-slate-50 rounded-xl group"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-medium text-slate-800 text-sm truncate">{exp.label}</span>
+                  <span className="text-xs text-slate-400">{formatDate(exp.date)}</span>
+                </div>
+                <div className="mt-0.5 text-xs text-slate-500">
+                  Payé par{" "}
+                  <span className="font-semibold text-indigo-600">
+                    {findName(participants, exp.paidBy)}
+                  </span>
+                  {" · "}Réparti entre{" "}
+                  <span className="text-slate-600">{sharedNames}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="font-bold text-slate-800 text-sm whitespace-nowrap">
+                  {formatEuro(exp.amount)}
+                </span>
+                <button
+                  onClick={() => onDelete(exp.id)}
+                  aria-label={`Supprimer la dépense ${exp.label}`}
+                  className="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-red-500 transition-all text-lg leading-none"
+                >
+                  ×
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
