@@ -100,7 +100,7 @@ export default function ExpenseForm({ participants, onAdd }: Props) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Montant (€)</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Montant (MAD)</label>
                 <input
                   type="text"
                   inputMode="decimal"

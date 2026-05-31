@@ -118,7 +118,7 @@ export function computeTransfers(balances: Balance[]): Transfer[] {
 export function formatEuro(amount: number): string {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: "EUR",
+    currency: "MAD",
   }).format(amount);
 }
 
