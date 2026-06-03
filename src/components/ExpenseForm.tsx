@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Participant, Expense } from "../types";
 import { generateId } from "../utils";
 
@@ -47,6 +47,18 @@ export default function ExpenseForm({ participants, onAdd }: Props) {
     setError("");
   }
 
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setError("");
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimLabel = label.trim();
@@ -75,14 +87,22 @@ export default function ExpenseForm({ participants, onAdd }: Props) {
     <>
       <button
         onClick={handleOpen}
-        className="w-full flex items-center justify-center gap-2 py-3 bg-indigo-600 text-white font-semibold rounded-2xl hover:bg-indigo-700 active:scale-95 transition-all shadow-sm"
+        className="w-full flex items-center justify-center gap-2 py-3 bg-indigo-600 text-white font-semibold rounded-2xl hover:bg-indigo-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 transition-all shadow-sm"
       >
         <span className="text-xl">+</span> Ajouter une dépense
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          onClick={handleCancel}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto overscroll-contain"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3 className="text-lg font-semibold text-slate-800 mb-4">Nouvelle dépense</h3>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -135,7 +155,7 @@ export default function ExpenseForm({ participants, onAdd }: Props) {
                     {allSelected() ? "Désélectionner tout" : "Sélectionner tout"}
                   </button>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1 max-h-52 overflow-y-auto overscroll-contain pr-1">
                   {participants.map((p) => (
                     <label
                       key={p.id}
@@ -145,9 +165,9 @@ export default function ExpenseForm({ participants, onAdd }: Props) {
                         type="checkbox"
                         checked={sharedWith.includes(p.id)}
                         onChange={() => toggleParticipant(p.id)}
-                        className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-400"
+                        className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-400 shrink-0"
                       />
-                      <span className="text-sm text-slate-700">{p.name}</span>
+                      <span className="text-sm text-slate-700 truncate min-w-0">{p.name}</span>
                     </label>
                   ))}
                 </div>
@@ -161,13 +181,13 @@ export default function ExpenseForm({ participants, onAdd }: Props) {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex-1 py-2.5 border border-slate-200 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors"
+                  className="flex-1 py-2.5 border border-slate-200 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-colors"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:scale-95 transition-all"
+                  className="flex-1 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1 transition-all"
                 >
                   Enregistrer
                 </button>

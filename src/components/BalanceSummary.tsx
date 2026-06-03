@@ -43,7 +43,7 @@ export default function BalanceSummary({ balances, transfers, expenses }: Props)
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline justify-between gap-2">
-                      <span className="text-sm font-medium text-slate-700">{b.name}</span>
+                      <span className="text-sm font-medium text-slate-700 truncate min-w-0">{b.name}</span>
                       <span
                         className={`text-sm font-bold whitespace-nowrap ${
                           isPositive
@@ -94,7 +94,7 @@ export default function BalanceSummary({ balances, transfers, expenses }: Props)
                 <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-red-100 text-red-600 text-xs font-bold uppercase shrink-0">
                   {t.from.charAt(0)}
                 </span>
-                <div className="flex-1 text-sm text-slate-700">
+                <div className="flex-1 min-w-0 text-sm text-slate-700 break-words">
                   <span className="font-semibold text-slate-800">{t.from}</span>
                   {" doit "}
                   <span className="font-bold text-amber-700">{formatEuro(t.amount)}</span>

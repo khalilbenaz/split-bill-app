@@ -57,7 +57,7 @@ export default function ParticipantsPanel({ participants, onChange, expenseParti
         />
         <button
           onClick={handleAdd}
-          className="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:scale-95 transition-all"
+          className="shrink-0 whitespace-nowrap px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1 transition-all"
         >
           Ajouter
         </button>
@@ -71,18 +71,18 @@ export default function ParticipantsPanel({ participants, onChange, expenseParti
           {participants.map((p) => (
             <li
               key={p.id}
-              className="flex items-center justify-between bg-slate-50 rounded-lg px-3 py-2"
+              className="flex items-center justify-between gap-2 bg-slate-50 rounded-lg px-3 py-2"
             >
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase shrink-0">
                   {p.name.charAt(0)}
                 </span>
-                <span className="text-sm font-medium text-slate-700">{p.name}</span>
+                <span className="text-sm font-medium text-slate-700 truncate min-w-0">{p.name}</span>
               </div>
               <button
                 onClick={() => handleRemove(p.id)}
                 aria-label={`Supprimer ${p.name}`}
-                className="text-slate-400 hover:text-red-500 transition-colors text-lg leading-none"
+                className="flex items-center justify-center w-7 h-7 shrink-0 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors text-lg leading-none"
               >
                 ×
               </button>

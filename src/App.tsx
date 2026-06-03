@@ -65,21 +65,22 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* Header */}
       <header className="bg-white border-b border-slate-100 shadow-sm sticky top-0 z-40">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">💰</span>
-            <span className="font-bold text-slate-800 text-lg tracking-tight">Split Bill</span>
-            <span className="hidden sm:block text-slate-400 text-sm ml-1">— partage de dépenses</span>
+        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-2xl shrink-0">💰</span>
+            <span className="font-bold text-slate-800 text-lg tracking-tight shrink-0">Split Bill</span>
+            <span className="hidden sm:inline text-slate-400 text-sm ml-1 truncate">— partage de dépenses</span>
           </div>
           <button
             onClick={handleReset}
-            className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${
+            className={`text-xs px-3 py-1.5 rounded-lg border transition-all shrink-0 whitespace-nowrap ${
               confirmReset
                 ? "bg-red-600 text-white border-red-600 font-semibold"
                 : "border-slate-200 text-slate-500 hover:border-red-300 hover:text-red-500"
             }`}
           >
-            {confirmReset ? "Confirmer la réinitialisation" : "Réinitialiser"}
+            <span className="sm:hidden">{confirmReset ? "Confirmer ?" : "Réinit."}</span>
+            <span className="hidden sm:inline">{confirmReset ? "Confirmer la réinitialisation" : "Réinitialiser"}</span>
           </button>
         </div>
       </header>

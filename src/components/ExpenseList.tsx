@@ -45,11 +45,11 @@ export default function ExpenseList({ expenses, participants, onDelete }: Props)
               className="flex items-start justify-between gap-3 p-3 bg-slate-50 rounded-xl group"
             >
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-medium text-slate-800 text-sm truncate">{exp.label}</span>
-                  <span className="text-xs text-slate-400">{formatDate(exp.date)}</span>
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="font-medium text-slate-800 text-sm truncate min-w-0">{exp.label}</span>
+                  <span className="text-xs text-slate-400 shrink-0 whitespace-nowrap">{formatDate(exp.date)}</span>
                 </div>
-                <div className="mt-0.5 text-xs text-slate-500">
+                <div className="mt-0.5 text-xs text-slate-500 break-words">
                   Payé par{" "}
                   <span className="font-semibold text-indigo-600">
                     {findName(participants, exp.paidBy)}
@@ -58,14 +58,14 @@ export default function ExpenseList({ expenses, participants, onDelete }: Props)
                   <span className="text-slate-600">{sharedNames}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1 shrink-0">
                 <span className="font-bold text-slate-800 text-sm whitespace-nowrap">
                   {formatEuro(exp.amount)}
                 </span>
                 <button
                   onClick={() => onDelete(exp.id)}
                   aria-label={`Supprimer la dépense ${exp.label}`}
-                  className="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-red-500 transition-all text-lg leading-none"
+                  className="flex items-center justify-center w-7 h-7 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-300 transition-all text-lg leading-none sm:opacity-0 sm:group-hover:opacity-100 sm:focus:opacity-100"
                 >
                   ×
                 </button>
